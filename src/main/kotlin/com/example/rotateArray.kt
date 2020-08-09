@@ -35,22 +35,7 @@ fun rotate(a: Array<Array<Int>>, i: Int, j:Int, n:Int){
     //4th a, 0,0,13
     swap(a,i,j,temp)
 }
-/*
-n=4
-i=0, j=0
-1st e 2nd e 3rd e 4th e
-(0,0) (0,1) (0,2) (0,3)	i,j -> 1
-(0,3) (1,3) (2,3) (3,3) j,n-i-1 ->2
-(3,3) (3,2) (3,1) (3,0) n-i-1, n-j-1 ->3
-(3,0) (2,0) (1,0) (0,0) n-j-1, i -> 4
 
-1st ite
-i=0, j=0
-(0,0) f=i,j
-0,3   f= j,n-i-1
-3,3   f= n-i-1, n-j-1
-3,0   f=n-i-1, j
- */
 fun fillArray(a: Array<Array<Int>>) {
 var i=1;
     for(x in 0 until a.size)
