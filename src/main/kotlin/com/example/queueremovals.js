@@ -12,64 +12,42 @@ var expected_2 = [2, 5, 10, 13];
 /*
 input arr may contain duplicate values. So searching for the first instance of max val may not result in the right hit
 */
-function searchFrom(arr, maxVals, max){
-    //Find the number of occurances of max in maxVals
-    const p = maxVals.filter(x=>x==max).length
-    //Iterate through arr and get the index of the last occurance of max value
-    let q = 0
-    for(let i =0;i<arr.length;i++){
-          if(p==q){
-              console.log(`Found ${p} instances of ${max} in arr. Returning index ${i}`)
-              return i
-          }
-          if(arr[i]==max)
-            q++
-  
-    }
-    return -1
-  }
-  
   function findPositions(arr, x) {
     // Write your code here
-    
+    //Find Max value of an array of type [[k,v]...] Iterate in reverse to get the lowest max index
+    function findMax(arr){
+       const max = {index:0, resp:[0,0]}
+        for(let i=arr.length-1;i>=0;i--){
+            if(arr[i][1]>=max.resp[1])
+                {
+                    max.index=i
+                    max.resp[0]=arr[i][0]
+                    max.resp[1]=arr[i][1]
+                
+                }
+        }
+        return max
+    }
     //Holds the solution
     const sol = []
-    //Holds the initial values of the array. This is transformed as per the problem statement. Make a copy of the original
-    const p=arr.slice(0,arr.length)
-    const maxVals=[]
+    //Holds the initial indices/values of the array. This is transformed as per the problem statement. Make a copy of the original
+    const p=Object.entries(arr)
     for(let i=0;i<x;i++){
-        console.log(`i= ${i}`)
         //Pop x elements from the front of the queue. This remove the popped elements from p
         const popped= p.splice(0,x)
-        console.log(`p after popped= [${p.join(",")}]`)
-        console.log(`popped= [${popped.join(",")}]`)
+        
         //Find the largest value
-        const max = Math.max(...popped)
-        console.log(`max= ${max}`)
-        
-        const maxIndex=popped.indexOf(max)
-        console.log(`maxIndex= ${maxIndex}`)
-        //Find the 1-based index of the largest value in the original array
-        const oneBasedMaxIndex = arr.indexOf(max, searchFrom(arr,maxVals, max)+1)+1
-        console.log(`oneBasedMaxIndex= ${oneBasedMaxIndex}`)
-        //Find the index of the largest value in the popped array
-        maxVals.push(max)
-        console.log(`maxVals after pushing max= [${maxVals.join(",")}]`)
-        
+        const max = findMax(popped)
+
         //Remove the largest value index from the popped array
-        popped.splice(maxIndex,1)
-        console.log(`popped after removing largest index = [${popped.join(",")}]`)
+        popped.splice(max.index,1)
         //Add the largest value index to the solution array
-        sol.push(oneBasedMaxIndex)
-        console.log(`oneBasedMaxIndex after pushing 1based index= [${sol.join(",")}]`)
+        sol.push(parseInt(max.resp[0])+1)
+
         //Decrement each of the positive values by 1
-        const newPopped = popped.map(x=>x>0?x-1:0)
-        console.log(`newPopped  [${newPopped.join(",")}]`)
+        const newPopped = popped.map(x=>x[1]>0?[x[0],x[1]-1]:[x[0],0])
      //Clear the contents of the temporary p array and then insert the newPopped elements
      p.push(...newPopped)
-     console.log(`p after re-adding popped elements [${p.join(",")}]`)
-     console.log("")
-     console.log("")
     }
     return sol
     
