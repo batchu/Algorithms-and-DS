@@ -30,6 +30,8 @@ X -> [88 - 65 (Base of A) + Rotation Factor(3)]% Count of chars + Base of A = A
 */
 //input = '12' rotationFactor =2 output = '34'
 function rotationalCipher(input, rotationFactor){
+
+  //Input validation. Check and make sure that input is a valid string and the rotationFactor is a valid number
   const sol  = [] //['3','4']
   let newChar = ''
 //i = 2 input.length=2
@@ -68,9 +70,16 @@ function rotate(code, rotationFactor, rotationBase, baseChar){
 }
 
 test('34', rotationalCipher('12',2))
+test('#$@',rotationalCipher('#$@',15))
+test('#$@',rotationalCipher('#$@',6))
+test('34', rotationalCipher('34',0))
+test('3$4', rotationalCipher('3$4',10))
+test('2$3', rotationalCipher('3$4',-1))
+test('-$1000', rotationalCipher('-$1000','$'))
 test('B', rotate(65,1,26,65))
 test('R', rotate(67,15,26,65))
 test('9', rotate(51,16,10,48))
+
 
 
 function test(expected, actual){
